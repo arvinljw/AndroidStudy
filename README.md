@@ -6,7 +6,7 @@
 
 [手机联系人列表](https://arvinljw.github.io/2018/07/12/Android学习之联系人列表/)
 
-![效果](https://github.com/arvinljw/AndroidStudy/tree/master/images/contact_list.gif)
+![效果](https://upload-images.jianshu.io/upload_images/3157525-3e54e818dd9c78bc.gif?imageMogr2/auto-orient/strip)
 
 
 ## License
