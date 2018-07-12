@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".constraintlayout.GuideLineActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"
+        />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/line_v"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:background="#000"
+        app:layout_constraintTop_toBottomOf="@+id/line_h"
+        />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="0dp"
+        android:background="#000"
+        app:layout_constraintLeft_toRightOf="@+id/line_v"
+        />
+
+
+
+</android.support.constraint.ConstraintLayout>

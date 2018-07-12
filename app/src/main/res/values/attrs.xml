@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SideBarView">
+        <attr name="sidebar_letter_size" format="dimension"/>
+        <attr name="sidebar_letter_color" format="color|reference"/>
+        <attr name="sidebar_letter_selected_color" format="color|reference"/>
+    </declare-styleable>
+</resources>

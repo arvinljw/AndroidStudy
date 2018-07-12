@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AndroidStudy</string>
+    <string name="constrain_relationship_tips">这些都是相对位置，是以当前组件的哪一边界在某个组件的哪一边。
+        例如D的位置，即D的上边界在A的下边且D的右边界在B的左边，其他的同理。对于水平居中例如B，垂直居中例如I，在居中的时候也可以设置bias，
+        表示偏向，取值0-1，从左往右表示哪边偏向力更强，例如F、H，默认是0.5即中间无偏向。</string>
+    <string name="constrain_margin_tips">margin只针对有约束的方向才有用，例如在A中只有左约束，所以marginTop是没有用的；还有一个goneMarginXXX，表示相对于一个组件，但是这个组件visible为gone的时候的margin，同样也是需要有那个方向的约束才可以，例如C和D中C隐藏了。</string>
+    <string name="constrain_chains_tips">链，其实也是和相对位置接近，只是有着相互作用，然后就能相互约束，让其位置得到一定比例均分，例如ABC，设置了链的样式，两边的靠边，中间的居中，默认是三等分每个都居中，DEF就是三个都挨着，这种模式下可以使用bias偏向，GHI可以使用权重，但是需要让使用权重的那个方向的大小改为0dp。</string>
+</resources>

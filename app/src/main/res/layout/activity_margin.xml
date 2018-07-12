@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".constraintlayout.MarginActivity">
+
+    <TextView
+        android:id="@+id/A"
+        style="@style/textAccent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="A"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/B"
+        style="@style/textPrimary"
+        android:text="B"
+        app:layout_constraintLeft_toRightOf="@+id/A"
+        app:layout_constraintTop_toBottomOf="@+id/A"
+        app:layout_goneMarginLeft="10dp"
+        app:layout_goneMarginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/C"
+        style="@style/textAccent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="C"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/B"/>
+
+    <TextView
+        android:id="@+id/D"
+        style="@style/textPrimary"
+        android:text="D"
+        app:layout_constraintLeft_toRightOf="@+id/C"
+        app:layout_constraintTop_toBottomOf="@+id/C"
+        app:layout_goneMarginLeft="10dp"
+        app:layout_goneMarginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/E"
+        style="@style/textAccent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:text="E"
+        app:layout_constraintDimensionRatio="10:1"
+        app:layout_constraintTop_toBottomOf="@+id/D"
+        />
+
+    <TextView
+        style="@style/textNormal"
+        android:layout_width="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:gravity="left"
+        android:text="@string/constrain_margin_tips"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/E"
+        />
+
+
+</android.support.constraint.ConstraintLayout>
