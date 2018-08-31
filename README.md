@@ -8,6 +8,11 @@
 
 ![效果](https://upload-images.jianshu.io/upload_images/3157525-3e54e818dd9c78bc.gif?imageMogr2/auto-orient/strip)
 
+[Android学习之RecyclerView.ItemDecoration实践](https://arvinljw.github.io/2018/07/26/Android学习之RecyclerView.ItemDecoration实践/)
+
+[Android-JNI开发系列之配置](https://arvinljw.github.io/2018/08/29/Android-JNI开发系列之配置/)
+
+[Android-JNI开发系列之Java与C相互调用](https://arvinljw.github.io/2018/08/29/Android-JNI开发系列之Java与C相互调用/)
 
 ## License
 
