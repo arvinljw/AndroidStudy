@@ -5,9 +5,10 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,10 @@ import android.widget.TextView;
 import net.arvin.androidstudy.R;
 import net.arvin.androidstudy.utils.IWeakHandler;
 import net.arvin.androidstudy.utils.WeakHandler;
+import net.arvin.itemdecorationhelper.BaseStickyDividerItemDecoration;
+import net.arvin.itemdecorationhelper.DefaultHeaderCallBack;
+import net.arvin.itemdecorationhelper.GroupData;
+import net.arvin.itemdecorationhelper.ItemDecorationFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +39,6 @@ public class ContactFragment extends Fragment implements OnItemClickListener, IW
     private RecyclerView contactList;
     private ContactAdapter adapter;
 
-    private StickySectionDecoration sectionDecoration;
     private List<ContactEntity> items = new ArrayList<>();
     private Map<String, Integer> index;
     private List<String> keys;
@@ -43,6 +47,10 @@ public class ContactFragment extends Fragment implements OnItemClickListener, IW
     private int showLetter;
 
     private WeakHandler handler;
+    private BaseStickyDividerItemDecoration itemDecoration;
+
+    private SparseArray<GroupData> dataMap = new SparseArray<>();
+    private DefaultHeaderCallBack headerCallBack;
 
     @Nullable
     @Override
@@ -51,16 +59,42 @@ public class ContactFragment extends Fragment implements OnItemClickListener, IW
         tvCurr = rootView.findViewById(R.id.tv_curr);
         contactList = rootView.findViewById(R.id.list_contact);
 
-        contactList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        contactList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         adapter = new ContactAdapter(getActivity(), items);
         adapter.setOnItemClickListener(this);
         contactList.setAdapter(adapter);
-        sectionDecoration = new StickySectionDecoration(getActivity(), callback);
-        contactList.addItemDecoration(sectionDecoration);
+        itemDecoration = (BaseStickyDividerItemDecoration) getItemDecoration();
+        contactList.addItemDecoration(itemDecoration);
 
         handler = new WeakHandler(this);
 
         return rootView;
+    }
+
+    private RecyclerView.ItemDecoration getItemDecoration() {
+        headerCallBack = new DefaultHeaderCallBack(getActivity()) {
+            @Override
+            public GroupData getGroupData(int position) {
+                GroupData data = dataMap.get(position);
+                if (data == null) {
+                    String id = dealLetter(position);
+                    int i = keys.indexOf(id);
+                    int groupLength;
+                    if (i < keys.size() - 1) {
+                        String str = keys.get(i + 1);
+                        groupLength = index.get(str) - index.get(id);
+                    } else {
+                        groupLength = items.size() - index.get(id);
+                    }
+                    data = new GroupData(id)
+                            .position(position - index.get(id))
+                            .groupLength(groupLength);
+                }
+                return data;
+            }
+        };
+        return new ItemDecorationFactory.StickyDividerBuilder()
+                .callback(headerCallBack).build(contactList);
     }
 
     private String dealLetter(int i) {
@@ -70,31 +104,6 @@ public class ContactFragment extends Fragment implements OnItemClickListener, IW
         }
         return String.valueOf(ch).toUpperCase();
     }
-
-    StickySectionDecoration.GroupInfoCallback callback = new StickySectionDecoration.GroupInfoCallback() {
-        @Override
-        public GroupInfo getGroupInfo(int position) {
-            String id = dealLetter(position);
-            GroupInfo info = new GroupInfo(id);
-            info.setPosition(position - index.get(id));
-            int i = keys.indexOf(id);
-            if (i < keys.size() - 1) {
-                String str = keys.get(i + 1);
-                info.setGroupLength(index.get(str) - index.get(id));
-            } else {
-                info.setGroupLength(items.size() - index.get(id));
-            }
-            return info;
-        }
-
-        @Override
-        public View getSectionView(int pos) {
-            View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_section_header, null);
-            TextView tvSection = headerView.findViewById(R.id.tv_section);
-            tvSection.setText(dealLetter(pos));
-            return headerView;
-        }
-    };
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -149,7 +158,7 @@ public class ContactFragment extends Fragment implements OnItemClickListener, IW
                     Message msg = Message.obtain();
                     msg.what = MSG_GET_CONTACTS;
                     msg.obj = contacts;
-                    handler.sendMessage(msg);
+                    handler.sendMessageDelayed(msg, 500);
                 }
             }
         }).start();
@@ -241,7 +250,7 @@ public class ContactFragment extends Fragment implements OnItemClickListener, IW
             int movePosition = position - firstItem;
             if (movePosition >= 0 && movePosition < mRecyclerView.getChildCount()) {
                 //粘性头部，会占据一定的top空间，所以真是的top位置应该是减去粘性header的高度
-                int top = mRecyclerView.getChildAt(movePosition).getTop() - sectionDecoration.mHeaderHeight;
+                int top = mRecyclerView.getChildAt(movePosition).getTop() - itemDecoration.getStickyDividerHelper().getHeaderHeight();
                 mRecyclerView.smoothScrollBy(0, top);
             }
         } else {
@@ -264,6 +273,9 @@ public class ContactFragment extends Fragment implements OnItemClickListener, IW
         clearMsg();
         if (handler.hasMessages(MSG_GET_CONTACTS)) {
             handler.removeMessages(MSG_GET_CONTACTS);
+        }
+        if (headerCallBack != null) {
+            headerCallBack.onDestroy();
         }
     }
 }
